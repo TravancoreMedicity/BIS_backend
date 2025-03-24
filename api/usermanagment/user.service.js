@@ -1,10 +1,9 @@
 const pool = require('../../config/dbConfig')
-const logger = require('../../logger/logger')
+// const logger = require('../../logger/logger')
 
 module.exports = {
     insertUser: (data, callBack) => {
         // console.log("data service", data);
-        console.log(pool)
 
         pool.query(
             `INSERT INTO user(
@@ -41,7 +40,7 @@ module.exports = {
                 data.printerUsability
             ],
             (error, results, fields) => {
-                logger.error(error)
+                // logger.error(error)
                 if (error) {
                     return callBack(error)
                 }
@@ -83,7 +82,7 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -95,7 +94,7 @@ module.exports = {
             [id],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -107,7 +106,7 @@ module.exports = {
             [id],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -118,7 +117,7 @@ module.exports = {
             'SELECT * FROM user',
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -146,7 +145,7 @@ module.exports = {
             [email],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -161,7 +160,7 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -193,7 +192,7 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -212,7 +211,7 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -226,7 +225,7 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -240,7 +239,7 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -259,7 +258,7 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -290,7 +289,7 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -312,7 +311,7 @@ module.exports = {
             ],
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -324,7 +323,7 @@ module.exports = {
             'SELECT * FROM user WHERE user.login_type=2',
             (error, results, fields) => {
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)
@@ -360,7 +359,7 @@ module.exports = {
                 // console.log("results", results);
 
                 if (error) {
-                    logger.error(error)
+                    // logger.error(error)
                     return callBack(error)
                 }
                 return callBack(null, results)

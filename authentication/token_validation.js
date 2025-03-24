@@ -8,6 +8,8 @@ module.exports = {
             jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
                 if (err) {
 
+                    console.log(err, 'ijnjhunjin');
+
                     return res.json({
                         status: 102,
                         message: "Invalid Token"

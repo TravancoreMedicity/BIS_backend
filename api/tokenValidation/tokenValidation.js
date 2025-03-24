@@ -12,7 +12,7 @@ module.exports = {
             // token = token.slice(7);
             jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
                 if (err) {
-                    logger.error(err)
+                    // logger.error(err)
                     return res.status(401).json({
                         status: 401,
                         message: "Invalid Token"
@@ -23,7 +23,7 @@ module.exports = {
                 }
             });
         } else {
-            logger.error("No token")
+            // logger.error("No token")
             return res.status(401).json({
                 status: 401,
                 message: "Invalid Token"

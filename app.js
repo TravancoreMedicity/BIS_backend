@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use(
     cors({
-        origin: "http://192.168.22.170:3000",
+        origin: "http://192.168.22.3:3000",
         credentials: true
     })
 );
@@ -237,6 +237,11 @@ const mv_vehicle_registration = require('./api/mv_vehicle_registration/mv_vehicl
 const backuptypemast = require('./api/it_backup_type_master/backup_type.router')
 const simOperators = require('./api/it_sim_operators/sim_operators.router')
 const userRegistration = require("./api/usermanagment/user.route");
+const UserGroupRightMaster = require("./api/UserGroupRightMaster/UserGroupRightMaster.router")
+const UserTypeMaster = require("./api/UserTypeMaster/UserTypeMaster.router");
+const MenuNameMaster = require("./api/MenuNameMaster/MenuNameMaster.router")
+const ModuleNameMaster = require("./api/ModuleNameMaster/ModuleNameMaster.router");
+const ModuleGroupMaster = require('./api/bis_ModuleGroupMaster/ModuleGroupMaster.router');
 
 const { validateTokenFrontend } = require("./authentication/ValidationCheck");
 const { generateOTP } = require("./api/usermanagment/user.controller");
@@ -245,7 +250,7 @@ const { generateOTP } = require("./api/usermanagment/user.controller");
 app.use(express.json({ limit: '50mb' }));
 app.use((req, res, next) => {
     //     res.header("Access-Control-Allow-Origin", "http://192.168.10.170:8080
-    res.header("Access-Control-Allow-Origin", "http://192.168.22.170:3000");
+    res.header("Access-Control-Allow-Origin", "http://192.168.22.3:3000");
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-Width, Content-Type, Accept, Authorization"
@@ -423,11 +428,20 @@ app.use('/api/medvallet', med_vallet_master)
 app.use('/api/medvehilces', mv_vehicle_registration)
 app.use('/api/backuptypemast', backuptypemast)
 app.use('/api/simOperators', simOperators)
+app.use("/api/UserTypeMaster", UserTypeMaster)
 
 
 app.get('/api/validateToken', validateTokenFrontend)
 app.get("/api/generateOTP/:id", generateOTP); // generate OTP function
 app.use("/api/user", userRegistration);
+app.use("/api/UserGroupRightMaster", UserGroupRightMaster)
+app.use("/api/MenuNameMaster", MenuNameMaster)
+app.use("/api/ModuleNameMaster", ModuleNameMaster)
+app.use("/api/ModuleGroupMaster", ModuleGroupMaster)
+
+
+
+
 
 /*
 
