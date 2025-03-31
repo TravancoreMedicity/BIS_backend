@@ -45,6 +45,7 @@ module.exports = {
             })
     },
 
+
     EditModuleGroup: (data, callBack) => {
         pool.query(
             `UPDATE bis_module_grp_master 
