@@ -7,9 +7,6 @@ module.exports = {
             token = token.slice(7);
             jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
                 if (err) {
-
-                    console.log(err, 'ijnjhunjin');
-
                     return res.json({
                         status: 102,
                         message: "Invalid Token"
@@ -29,5 +26,21 @@ module.exports = {
                 message: "Invalid Token"
             });
         }
+    },
+    validateAccessToken: (req, res) => {
+        const token = req.cookies.accessToken;
+        if (!token) {
+            return res.status(401).json({ isValidToken: false, message: "No token provided" });
+        }
+        if (token) {
+            // token = token.slice(7);
+            jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+                if (err) {
+                    return res.status(401).json({ isValidToken: false, message: "Invalid token" });
+                }
+                res.status(200).json({ isValidToken: true, message: "Token is valid" });
+            });
+        }
+
     }
 };
