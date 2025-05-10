@@ -242,6 +242,14 @@ const UserTypeMaster = require("./api/UserTypeMaster/UserTypeMaster.router");
 const MenuNameMaster = require("./api/MenuNameMaster/MenuNameMaster.router")
 const ModuleNameMaster = require("./api/ModuleNameMaster/ModuleNameMaster.router");
 const ModuleGroupMaster = require('./api/bis_ModuleGroupMaster/ModuleGroupMaster.router');
+const bisDataPush = require('./api/bis_data_push/bis_data_push.router')
+const bisOpModule = require('./api/bis_op_module/bis_op_module.router')
+const bisIpModule = require('./api/bis_ip_module/bis_ip_module.router')
+const bisPharmacy = require('./api/bis_pharmacy/bis_pharmacy.router')
+const bisDischarge = require('./api/bis_discharge/bis_discharge.router')
+const labDetails = require('./api/bis_lab/bis_lab.router')
+const radiologyDetails = require('./api/bis_radiology/bis_radiology.router')
+
 
 const { validateTokenFrontend, validateToken } = require("./authentication/ValidationCheck");
 const { generateOTP } = require("./api/usermanagment/user.controller");
@@ -444,6 +452,14 @@ app.use("/api/ModuleGroupMaster", ModuleGroupMaster)
 
 app.get('/api/validateAccessToken', validateAccessToken)
 
+
+app.use('/api/bisDataPush', bisDataPush)
+app.use('/api/bisOpModule', bisOpModule)
+app.use('/api/bisIpModule', bisIpModule)
+app.use('/api/bisPharmacy', bisPharmacy)
+app.use('/api/bisDischarge', bisDischarge)
+app.use('/api/labDetails', labDetails)
+app.use('/api/radiologyDetails', radiologyDetails)
 
 /*
 
