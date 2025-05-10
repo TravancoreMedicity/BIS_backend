@@ -106,42 +106,56 @@ module.exports = {
             }
         )
     },
-
-    // updatOpCount: (data, callback) => {
-
-    //     pool.query(
-
-    //         `UPDATE am_custodian_department SET
-    //         am_custodian_name=?,
-    //         am_custodian_dept_slno=?,
-    //         am_custodian_deptsec_slno=?,
-    //         am_custodian_emp=?,
-    //         am_custdn_asset_no_first=?,
-    //         am_custdn_asset_no_second=?,
-    //         status=?,         
-    //         edit_user =?
-    //         WHERE 
-    //         am_custodian_slno=?`,
-
-    //         [
-    //             data.am_custodian_name,
-    //             data.am_custodian_dept_slno,
-    //             data.am_custodian_deptsec_slno,
-    //             data.am_custodian_emp,
-    //             data.am_custdn_asset_no_first,
-    //             data.am_custdn_asset_no_second,
-    //             data.status,
-    //             data.edit_user,
-    //             data.am_custodian_slno
-    //         ],
-    //         (error, results, feilds) => {
-    //             if (error) {
-    //                 return callback(error);
-    //             }
-    //             return callback(null, results);
-    //         }
-    //     )
-    // },
+    deleteOpData: (data, callback) => {
+        pool.query(
+            `DELETE FROM bis_outpatient_visit
+             WHERE op_visit_date IN (?)`,
+            [
+                data,
+            ],
+            (error, results, feilds) => {
+                if (error) {
+                    return callback(error);
+                }
+                return callback(null, results);
+            }
+        )
+    },
+    updatOpCount: (data, callback) => {
+        pool.query(
+            `UPDATE bis_outpatient_visit 
+             SET
+             op_visit_date=?,
+              op_new_reg =?,
+              op_company_slno=?
+             WHERE op_slno IN (2)`,
+            [
+                data,
+            ],
+            (error, results, feilds) => {
+                if (error) {
+                    return callback(error);
+                }
+                return callback(null, results);
+            }
+        )
+    },
+    updatNewRegOpModule: (data, callback) => {
+        pool.query(
+            `UPDATE bis_outpatient_module 
+             SET last_update_date =?
+             WHERE op_module_slno IN (2)`,
+            [
+                data,
+            ],
+            (error, results, feilds) => {
+                if (error) {
+                    return callback(error);
+                }
+                return callback(null, results);
+            }
+        )
+    },
 }
 
 
