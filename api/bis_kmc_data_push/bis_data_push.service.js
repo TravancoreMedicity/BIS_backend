@@ -3,10 +3,10 @@ module.exports = {
 
     getOpDatas: (callback) => {
         pool.query(
-            `SELECT tmc_op_slno, tmc_op_visit_date, tmc_op_total_op, tmc_op_new_reg, tmc_op_visit, 
-             tmc_op_registration_fee, tmc_op_visit_fee, tmc_op_collection_total, tmc_op_canel_count, 
-             tmc_op_canel_amount, tmc_op_update_user, tmc_op_update_date, tmc_op_company_slno
-             FROM bis_tmc_outpatient_visit`, [],
+            `SELECT kmc_op_slno, kmc_op_visit_date, kmc_op_total_op, kmc_op_new_reg, kmc_op_visit, 
+             kmc_op_registration_fee, kmc_op_visit_fee, kmc_op_collection_total,kmc_op_refund,kmc_op_canel_count, 
+             kmc_op_canel_amount, kmc_op_update_user, kmc_op_update_date, kmc_op_company_slno
+             FROM bis_kmc_outpatient_visit`, [],
             (error, results, feilds) => {
                 if (error) {
                     return callback(error);
@@ -19,7 +19,7 @@ module.exports = {
 
     getOpModuleData: (callback) => {
         pool.query(
-            `select tmc_op_module_slno, tmc_label_name, tmc_last_update_date from bis_tmc_outpatient_module`, [],
+            `select kmc_op_module_slno, kmc_label_name, kmc_last_update_date from bis_kmc_outpatient_module`, [],
             (error, results, feilds) => {
                 if (error) {
                     return callback(error);
@@ -56,12 +56,12 @@ module.exports = {
 
     insertOpcount: (data, callBack) => {
         pool.query(
-            `INSERT INTO bis_tmc_outpatient_visit(
-                tmc_op_visit_date,
-                tmc_op_total_op,
-                tmc_op_new_reg,
-                tmc_op_visit,
-                tmc_op_company_slno
+            `INSERT INTO bis_kmc_outpatient_visit(
+                kmc_op_visit_date,
+                kmc_op_total_op,
+                kmc_op_new_reg,
+                kmc_op_visit,
+                kmc_op_company_slno
                 )
                 VALUES ?`,
             [
@@ -78,9 +78,9 @@ module.exports = {
 
     updatOutpatientModuleTbl: (data, callback) => {
         pool.query(
-            `UPDATE bis_tmc_outpatient_module 
-             SET tmc_last_update_date =?
-             WHERE tmc_op_module_slno IN (1, 2, 3)`,
+            `UPDATE bis_kmc_outpatient_module 
+             SET kmc_last_update_date =?
+             WHERE kmc_op_module_slno IN (1, 2, 3)`,
             [
                 data,
             ],
@@ -94,8 +94,8 @@ module.exports = {
     },
     deleteOpData: (data, callback) => {
         pool.query(
-            `DELETE FROM bis_tmc_outpatient_visit
-             WHERE tmc_op_visit_date IN (?)`,
+            `DELETE FROM bis_kmc_outpatient_visit
+             WHERE kmc_op_visit_date IN (?)`,
             [
                 data,
             ],
@@ -109,12 +109,12 @@ module.exports = {
     },
     updatOpCount: (data, callback) => {
         pool.query(
-            `UPDATE bis_tmc_outpatient_visit 
+            `UPDATE bis_kmc_outpatient_visit 
              SET
-             tmc_op_visit_date=?,
-             tmc_op_new_reg =?,
-             tmc_op_company_slno=?
-             WHERE tmc_op_slno IN (2)`,
+             kmc_op_visit_date=?,
+             kmc_op_new_reg =?,
+             kmc_op_company_slno=?
+             WHERE kmc_op_slno IN (2)`,
             [
                 data,
             ],
@@ -128,9 +128,9 @@ module.exports = {
     },
     updatNewRegOpModule: (data, callback) => {
         pool.query(
-            `UPDATE bis_tmc_outpatient_module 
-             SET tmc_last_update_date =?
-             WHERE tmc_op_module_slno IN (2)`,
+            `UPDATE bis_kmc_outpatient_module 
+             SET kmc_last_update_date =?
+             WHERE kmc_op_module_slno IN (2)`,
             [
                 data,
             ],
@@ -144,14 +144,14 @@ module.exports = {
     },
     updateCashcreditCount: (values, callback) => {
         const sql = `
-             UPDATE bis_tmc_outpatient_visit 
+             UPDATE bis_kmc_outpatient_visit 
         SET 
-            tmc_op_registration_fee = ?, 
-            tmc_op_visit_fee = ?, 
-            tmc_op_collection_total = ?,
-            tmc_op_refund=?,
-            tmc_op_company_slno = ? 
-        WHERE tmc_op_visit_date = ?
+            kmc_op_registration_fee = ?, 
+            kmc_op_visit_fee = ?, 
+            kmc_op_collection_total = ?,
+            kmc_op_refund=?,
+            kmc_op_company_slno = ? 
+        WHERE kmc_op_visit_date = ?
     `;
 
         const promises = values.map(([date, regFee, visitFee, total, refund, companySlno]) => {
@@ -174,14 +174,14 @@ module.exports = {
 
     deleteOpCashCreditData: (data, callback) => {
         pool.query(
-            `UPDATE bis_tmc_outpatient_visit 
+            `UPDATE bis_kmc_outpatient_visit 
              SET
-             tmc_op_registration_fee=0,
-             tmc_op_visit_fee =0,
-             tmc_op_collection_total=0,
-             tmc_op_refund=0,
-             tmc_op_company_slno=0
-             WHERE tmc_op_visit_date IN (?)`,
+             kmc_op_registration_fee=0,
+             kmc_op_visit_fee =0,
+             kmc_op_collection_total=0,
+             Kmc_op_refund=0,
+             kmc_op_company_slno=0
+             WHERE kmc_op_visit_date IN (?)`,
             [
                 data,
             ],
@@ -195,9 +195,9 @@ module.exports = {
     },
     updateOpCashCreditData: (data, callback) => {
         pool.query(
-            `UPDATE bis_tmc_outpatient_module 
-             SET tmc_last_update_date =?
-             WHERE tmc_op_module_slno IN (4,5,6)`,
+            `UPDATE bis_kmc_outpatient_module 
+             SET kmc_last_update_date =?
+             WHERE kmc_op_module_slno IN (4,5,6)`,
             [
                 data,
             ],

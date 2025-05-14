@@ -2,11 +2,13 @@ const { pool } = require('../../config/database')
 module.exports = {
     getDetails: (data, callBack) => {
         pool.query(
-            `SELECT rad_slno, rad_date, rad_total_count, rad_op_total_count, rad_ip_total_count, rad_refund_count,
-             rad_op_total_amt, rad_ip_total_amt, rad_refund_amt, rad_op_refund_amt, rad_ip_refund_amt, rad_total_cash_amt,
-             rad_total_credit_amt, rad_total_inpatient_amt, rad_mri_count, rad_mri_amt, 
-             rad_ct_count, rad_ct_amt, rad_xray_count, rad_xray_amt, rad_usg_count, rad_usg_amt, rad_update_user, rad_update_date
-             FROM bis_radiology_master where rad_date between ? and ?
+            `SELECT tmc_rad_slno, tmc_rad_date, tmc_rad_total_count, tmc_rad_op_total_count,
+             tmc_rad_ip_total_count, tmc_rad_refund_count, tmc_rad_op_total_amt, tmc_rad_ip_total_amt, 
+             tmc_rad_refund_amt, tmc_rad_op_refund_amt, tmc_rad_ip_refund_amt, tmc_rad_total_cash_amt, 
+             tmc_rad_total_credit_amt, tmc_rad_total_inpatient_amt, tmc_rad_mri_count, tmc_rad_mri_amt,
+             tmc_rad_ct_count, tmc_rad_ct_amt, tmc_rad_xray_count, tmc_rad_xray_amt, tmc_rad_usg_count, 
+             tmc_rad_usg_amt, tmc_rad_update_user, tmc_rad_update_date, tmc_rad_company_slno
+             FROM bis_tmc_radiology_master where tmc_rad_date between ? and ?
              `,
             [
                 data.fromDate,

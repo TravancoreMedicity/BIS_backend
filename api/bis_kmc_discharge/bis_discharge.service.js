@@ -3,10 +3,10 @@ module.exports = {
     dischargeDetails: (data, callBack) => {
         pool.query(
             `
-             SELECT tmc_dc_slno, tmc_dc_date, tmc_dc_total_bill_count, tmc_dc_total_bill_amount,
-             tmc_dc_advance_count, tmc_dc_advance_amount, tmc_dc_receipt_count, tmc_dc_receipt_amount,
-             tmc_dc_update_user, tmc_dc_update_date, tmc_dc_company_slno
-             FROM bis_tmc_discharge where tmc_dc_date between ? and ?
+             SELECT kmc_dc_slno, kmc_dc_date, kmc_dc_total_bill_count, kmc_dc_total_bill_amount,
+             kmc_dc_advance_count, kmc_dc_advance_amount, kmc_dc_receipt_count, kmc_dc_receipt_amount,
+             kmc_dc_update_user, kmc_dc_update_date, kmc_dc_company_slno
+             FROM bis_kmc_discharge where kmc_dc_date between ? and ?
              `,
             [
                 data.fromDate,

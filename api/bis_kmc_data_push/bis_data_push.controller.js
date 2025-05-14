@@ -198,8 +198,8 @@ module.exports = {
             record.REFUND,
             record.c_name
         ]);
-
         const dateArr = body.map(record => record.DATEE);
+
         updateCashcreditCount(values, (error, results) => {
             if (error) {
                 return res.status(200).json({

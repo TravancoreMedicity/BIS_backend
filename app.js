@@ -250,6 +250,16 @@ const bisDischarge = require('./api/bis_discharge/bis_discharge.router')
 const labDetails = require('./api/bis_lab/bis_lab.router')
 const radiologyDetails = require('./api/bis_radiology/bis_radiology.router')
 
+//for kmc
+const bisKmcDataPush = require('./api/bis_kmc_data_push/bis_data_push.router')
+const bisKmcOpModule = require('./api/bis_kmc_op_module/bis_op_module.router')
+const bisKmcIpModule = require('./api/bis_kmc_ip_module/bis_ip_module.router')
+const bisKmcPharmacy = require('./api/bis_kmc_pharmacy/bis_pharmacy.router')
+const bisKmcDischarge = require('./api/bis_kmc_discharge/bis_discharge.router')
+const bisKmclabDetails = require('./api/bis_kmc_lab/bis_lab.router')
+const bisKmcradiologyDetails = require('./api/bis_kmc_radiology/bis_radiology.router')
+
+
 
 const { validateTokenFrontend, validateToken } = require("./authentication/ValidationCheck");
 const { generateOTP } = require("./api/usermanagment/user.controller");
@@ -460,6 +470,16 @@ app.use('/api/bisPharmacy', bisPharmacy)
 app.use('/api/bisDischarge', bisDischarge)
 app.use('/api/labDetails', labDetails)
 app.use('/api/radiologyDetails', radiologyDetails)
+
+
+//for Kmc
+app.use('/api/bisKmcDataPush', bisKmcDataPush)
+app.use('/api/bisKmcOpModule', bisKmcOpModule)
+app.use('/api/bisKmcIpModule', bisKmcIpModule)
+app.use('/api/bisKmcPharmacy', bisKmcPharmacy)
+app.use('/api/bisKmcDischarge', bisKmcDischarge)
+app.use('/api/bisKmclabDetails', bisKmclabDetails)
+app.use('/api/bisKmcradiologyDetails', bisKmcradiologyDetails)
 
 /*
 

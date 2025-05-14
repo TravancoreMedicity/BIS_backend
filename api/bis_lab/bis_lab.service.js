@@ -2,12 +2,13 @@ const { pool } = require('../../config/database')
 module.exports = {
     labDetails: (data, callBack) => {
         pool.query(
-            `SELECT lab_slno, lab_date, lab_total_count, lab_op_total_count, lab_ip_total_count, lab_refund_count,
-             lab_op_total_amt, lab_ip_total_amt, lab_refund_amt, lab_op_refund_amt, lab_ip_refund_amt, lab_total_cash_amt,
-             lab_total_credit_amt, lab_total_inpatient_amt, lab_micro_count, lab_micro_amt, 
-             lab_haemato_count, lab_haemato_amt, lab_bio_chemist_count, lab_bio_chemist_amt,
-             lab_clinical_pathology_count, lab_clinical_pathology_amt, lab_update_user, lab_update_date
-             FROM bis_lab_master where lab_date between ? and ?
+            `SELECT tmc_lab_slno, tmc_lab_date, tmc_lab_total_count, tmc_lab_op_total_count, tmc_lab_ip_total_count, 
+             tmc_lab_refund_count, tmc_lab_op_total_amt, tmc_lab_ip_total_amt, tmc_lab_refund_amt, tmc_lab_op_refund_amt,
+             tmc_lab_ip_refund_amt, tmc_lab_total_cash_amt, tmc_lab_total_credit_amt, tmc_lab_total_inpatient_amt,
+             tmc_lab_micro_count, tmc_lab_micro_amt, tmc_lab_haemato_count, tmc_lab_haemato_amt,
+             tmc_lab_bio_chemist_count, tmc_lab_bio_chemist_amt, tmc_lab_clinical_pathology_count,
+             tmc_lab_clinical_pathology_amt, tmc_lab_update_user, tmc_lab_update_date, tmc_lab_company_slno
+             FROM bis_tmc_lab_master where tmc_lab_date between ? and ?
              `,
             [
                 data.fromDate,
