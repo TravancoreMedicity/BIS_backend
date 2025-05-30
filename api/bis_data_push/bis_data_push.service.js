@@ -30,30 +30,6 @@ module.exports = {
         );
     },
 
-    getOpOracleData: (data, callBack) => {
-        pool.query(
-            `
-
-
-
-
-            
-
-             `,
-
-            [
-                data.fromdate,
-                data.todate
-            ],
-            (error, results, feilds) => {
-                if (error) {
-                    return callBack(error);
-                }
-                return callBack(null, results);
-            }
-        )
-    },
-
     insertOpcount: (data, callBack) => {
         pool.query(
             `INSERT INTO bis_tmc_outpatient_visit(
@@ -74,8 +50,6 @@ module.exports = {
                 return callBack(null, results)
             })
     },
-
-
     updatOutpatientModuleTbl: (data, callback) => {
         pool.query(
             `UPDATE bis_tmc_outpatient_module 
@@ -210,6 +184,112 @@ module.exports = {
         )
     },
 
-}
+    getIpModuleData: (callback) => {
+        pool.query(
+            `select tmc_ip_module_slno, tmc_ip_label_name, tmc_ip_last_update_date from bis_tmc_inpatient_module`, [],
+            (error, results, feilds) => {
+                if (error) {
+                    return callback(error);
+                }
+                return callback(null, results);
 
+            }
+        );
+    },
+    // getKmcIpModuleData: (callback) => {
+    //     pool.query(
+    //         `select kmc_ip_module_slno, kmc_ip_label_name, kmc_ip_last_update_date from bis_kmc_inpatient_module`, [],
+    //         (error, results, feilds) => {
+    //             if (error) {
+    //                 return callback(error);
+    //             }
+    //             return callback(null, results);
+
+    //         }
+    //     );
+    // },
+
+
+    // SELECT kmc_ip_slno, kmc_ip_date, kmc_ip_total_admission, kmc_ip_total_discharge, kmc_ip_dama, kmc_ip_dis_gross, kmc_ip_dis_net, kmc_ip_receipt_count, kmc_ip_receipt_amount,
+    //  kmc_ip_bill_insurance_count, kmc_ip_bill_cash_count, kmc_ip_bill_credit_card, kmc_ip_bill_cash, kmc_ip_update_user, kmc_ip_update_date, ktmc_ip_company_slno FROM bis.bis_kmc_inpatient;
+
+    insertIpAdmissionDatas: (data, callBack) => {
+        pool.query(
+            `INSERT INTO bis_tmc_inpatient(
+                tmc_ip_date,
+                tmc_ip_total_admission,
+                tmc_ip_company_slno)
+                VALUES ?`,
+            [
+                data
+            ],
+            (error, results, fields) => {
+                if (error) {
+                    return callBack(error)
+                }
+                return callBack(null, results)
+            })
+    },
+    UpdateIpAdmsnModuleTbl: (data, callback) => {
+        pool.query(
+            `
+             UPDATE bis_tmc_inpatient_module 
+             SET tmc_ip_last_update_date =?
+             WHERE tmc_ip_module_slno IN (1)`,
+            [
+                data,
+            ],
+            (error, results, feilds) => {
+                if (error) {
+                    return callback(error);
+                }
+                return callback(null, results);
+            }
+        )
+    },
+
+    updateDischargeCount: (values, callback) => {
+        const sql = `
+                  UPDATE bis_tmc_inpatient 
+            SET 
+                tmc_ip_total_discharge = ?, 
+                tmc_ip_company_slno = ? 
+            WHERE tmc_ip_date = ?
+        `;
+
+        const promises = values.map(([date, disCount, companySlno]) => {
+            return new Promise((resolve, reject) => {
+                pool.query(sql, [disCount, companySlno, date], (err, results) => {
+                    if (err) return reject(err);
+                    resolve(results.affectedRows);
+                });
+            });
+        });
+
+        Promise.all(promises)
+            .then(results => {
+                const totalAffected = results.reduce((acc, curr) => acc + curr, 0);
+                callback(null, { affectedRows: totalAffected });
+            })
+            .catch(error => callback(error));
+    },
+
+    UpdateIpDischgModuleTbl: (data, callback) => {
+        pool.query(
+            `
+             UPDATE bis_tmc_inpatient_module 
+             SET tmc_ip_last_update_date =?
+             WHERE tmc_ip_module_slno IN (2)`,
+            [
+                data,
+            ],
+            (error, results, feilds) => {
+                if (error) {
+                    return callback(error);
+                }
+                return callback(null, results);
+            }
+        )
+    },
+}
 
