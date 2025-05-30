@@ -158,17 +158,16 @@ module.exports = {
     generateOTP: async (req, res) => {
         //  console.log("Dzfgs");
         const mobileNumber = req.params.id;
-        //console.log("mobileNumber", mobileNumber);
+        // console.log("mobileNumber", mobileNumber);
 
         const trimmedNumber = mobileNumber.slice(2);
         // console.log("trimmedNumber", trimmedNumber);
 
         // First check mobile number registerd or not
         mobileExist(trimmedNumber, (error, results) => {
-            // console.log("DFgd");
-            // console.log("error", error);
+            //      // console.log("results", results);
             if (error) {
-                //logger.error(error);
+                // logger.error(error);
                 return res.status(200).json({
                     success: 0,
                     message: "Database connection error",
@@ -184,8 +183,10 @@ module.exports = {
 
             if (results.length > 0) {
                 const otp = Math.floor(100000 + Math.random() * 900000);
-                insertOTP({ mobile: trimmedNumber, otp: otp }, (error, results) => {
+                // console.log("OTP", otp);
 
+                insertOTP({ mobile: trimmedNumber, otp: otp }, (error, results) => {
+                    // console.log("results", results);
                     if (error) {
                         // logger.error(error);
                         return res.status(200).json({
@@ -196,6 +197,7 @@ module.exports = {
                     if (results) {
                         return res.status(200).json({
                             success: 2,
+                            otp: otp,
                             message: "OTP sent successfully",
                         });
 
@@ -224,7 +226,7 @@ module.exports = {
     verifyOTPandLogin: async (req, res) => {
         const body = req.body;
 
-        console.log("body", body);
+        // console.log("body", body);
 
         verifyOTP(body, async (error, results) => {
             if (error) {
@@ -414,7 +416,7 @@ module.exports = {
         const body = req.body;
         // CHECK USER BASED VALIDATION FIRST CHECK THE PASSWORD CREDENTIAL THEN REST
         userBasedValidationCheck(body, (error, results) => {
-            console.log("error", error);
+            // console.log("error", error);
 
 
             if (error) {

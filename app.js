@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use(
     cors({
-        origin: "http://192.168.22.170:3000",
+        origin: "http://192.168.22.3:3000",
         credentials: true
     })
 );
@@ -237,15 +237,39 @@ const mv_vehicle_registration = require('./api/mv_vehicle_registration/mv_vehicl
 const backuptypemast = require('./api/it_backup_type_master/backup_type.router')
 const simOperators = require('./api/it_sim_operators/sim_operators.router')
 const userRegistration = require("./api/usermanagment/user.route");
+const UserGroupRightMaster = require("./api/UserGroupRightMaster/UserGroupRightMaster.router")
+const UserTypeMaster = require("./api/UserTypeMaster/UserTypeMaster.router");
+const MenuNameMaster = require("./api/MenuNameMaster/MenuNameMaster.router")
+const ModuleNameMaster = require("./api/ModuleNameMaster/ModuleNameMaster.router");
+const ModuleGroupMaster = require('./api/bis_ModuleGroupMaster/ModuleGroupMaster.router');
+const bisDataPush = require('./api/bis_data_push/bis_data_push.router')
+const bisOpModule = require('./api/bis_op_module/bis_op_module.router')
+const bisIpModule = require('./api/bis_ip_module/bis_ip_module.router')
+const bisPharmacy = require('./api/bis_pharmacy/bis_pharmacy.router')
+const bisDischarge = require('./api/bis_discharge/bis_discharge.router')
+const labDetails = require('./api/bis_lab/bis_lab.router')
+const radiologyDetails = require('./api/bis_radiology/bis_radiology.router')
 
-const { validateTokenFrontend } = require("./authentication/ValidationCheck");
+//for kmc
+const bisKmcDataPush = require('./api/bis_kmc_data_push/bis_data_push.router')
+const bisKmcOpModule = require('./api/bis_kmc_op_module/bis_op_module.router')
+const bisKmcIpModule = require('./api/bis_kmc_ip_module/bis_ip_module.router')
+const bisKmcPharmacy = require('./api/bis_kmc_pharmacy/bis_pharmacy.router')
+const bisKmcDischarge = require('./api/bis_kmc_discharge/bis_discharge.router')
+const bisKmclabDetails = require('./api/bis_kmc_lab/bis_lab.router')
+const bisKmcradiologyDetails = require('./api/bis_kmc_radiology/bis_radiology.router')
+
+
+
+const { validateTokenFrontend, validateToken } = require("./authentication/ValidationCheck");
 const { generateOTP } = require("./api/usermanagment/user.controller");
+const { validateAccessToken } = require("./authentication/token_validation");
 
 
 app.use(express.json({ limit: '50mb' }));
 app.use((req, res, next) => {
     //     res.header("Access-Control-Allow-Origin", "http://192.168.10.170:8080
-    res.header("Access-Control-Allow-Origin", "http://192.168.22.170:3000");
+    res.header("Access-Control-Allow-Origin", "http://192.168.22.3:3000");
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-Width, Content-Type, Accept, Authorization"
@@ -423,11 +447,39 @@ app.use('/api/medvallet', med_vallet_master)
 app.use('/api/medvehilces', mv_vehicle_registration)
 app.use('/api/backuptypemast', backuptypemast)
 app.use('/api/simOperators', simOperators)
+app.use("/api/UserTypeMaster", UserTypeMaster)
 
 
-app.get('/api/validateToken', validateTokenFrontend)
+// app.get('/api/validateToken', validateTokenFrontend)
 app.get("/api/generateOTP/:id", generateOTP); // generate OTP function
 app.use("/api/user", userRegistration);
+app.use("/api/UserGroupRightMaster", UserGroupRightMaster)
+app.use("/api/MenuNameMaster", MenuNameMaster)
+app.use("/api/ModuleNameMaster", ModuleNameMaster)
+app.use("/api/ModuleGroupMaster", ModuleGroupMaster)
+
+// app.get('/api/validatetoken', validateToken)
+
+app.get('/api/validateAccessToken', validateAccessToken)
+
+
+app.use('/api/bisDataPush', bisDataPush)
+app.use('/api/bisOpModule', bisOpModule)
+app.use('/api/bisIpModule', bisIpModule)
+app.use('/api/bisPharmacy', bisPharmacy)
+app.use('/api/bisDischarge', bisDischarge)
+app.use('/api/labDetails', labDetails)
+app.use('/api/radiologyDetails', radiologyDetails)
+
+
+//for Kmc
+app.use('/api/bisKmcDataPush', bisKmcDataPush)
+app.use('/api/bisKmcOpModule', bisKmcOpModule)
+app.use('/api/bisKmcIpModule', bisKmcIpModule)
+app.use('/api/bisKmcPharmacy', bisKmcPharmacy)
+app.use('/api/bisKmcDischarge', bisKmcDischarge)
+app.use('/api/bisKmclabDetails', bisKmclabDetails)
+app.use('/api/bisKmcradiologyDetails', bisKmcradiologyDetails)
 
 /*
 

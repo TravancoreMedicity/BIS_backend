@@ -5,6 +5,7 @@ const logger = require("../../logger/logger");
 
 const generateAccessToken = (userData) => {
     const plainUserData = JSON.parse(JSON.stringify(userData));
+    // console.log(plainUserData);
     return jwt.sign(plainUserData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "30m" });
 }
 // jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "30m" });
