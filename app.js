@@ -259,7 +259,7 @@ const bisKmcPharmacy = require('./api/bis_kmc_pharmacy/bis_pharmacy.router')
 const bisKmcDischarge = require('./api/bis_kmc_discharge/bis_discharge.router')
 const bisKmclabDetails = require('./api/bis_kmc_lab/bis_lab.router')
 const bisKmcradiologyDetails = require('./api/bis_kmc_radiology/bis_radiology.router')
-
+const bisQuotation = require('./api/bis_quotation/bis_quotation.router')
 
 
 const { validateTokenFrontend, validateToken } = require("./authentication/ValidationCheck");
@@ -481,6 +481,7 @@ app.use('/api/bisKmcPharmacy', bisKmcPharmacy)
 app.use('/api/bisKmcDischarge', bisKmcDischarge)
 app.use('/api/bisKmclabDetails', bisKmclabDetails)
 app.use('/api/bisKmcradiologyDetails', bisKmcradiologyDetails)
+app.use('/api/bisQuotation', bisQuotation)
 
 /*
 

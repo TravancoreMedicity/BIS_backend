@@ -10,7 +10,7 @@ router.patch('/updatOpCount', verifyToken, updatOpCount)
 router.patch('/updateCashcredit', verifyToken, updateCashcreditCount)
 //IP
 router.get('/getIpModuleData', verifyToken, getIpModuleData)
-router.post('/insertIpAdmission', insertIpAdmissionDatas);
-router.patch('/updateDischargeCount', updateDischargeCount);
+router.post('/insertIpAdmission', verifyToken, insertIpAdmissionDatas);
+router.patch('/updateDischargeCount', verifyToken, updateDischargeCount);
 module.exports = router
 
