@@ -1,4 +1,4 @@
-const { DeptSearch, EmpTaskSearch } = require('../tm_reports/tmreports.service')
+const { DeptSearch, EmpTaskSearch, fetchUserDrawer } = require('../tm_reports/tmreports.service')
 
 const logger = require('../../logger/logger');
 module.exports = {
@@ -47,5 +47,22 @@ module.exports = {
                 data: results
             })
         })
+    },
+
+    fetchUserDrawer: (req, res) => {
+        const id = req.params.id;
+        fetchUserDrawer(id, (error, results) => {
+            if (error) {
+                logger.error(error);
+                return res.status(500).json({
+                    success: 0,
+                    message: "Database connection error",
+                });
+            }
+            return res.status(200).json({
+                success: 1,
+                data: results,
+            });
+        });
     },
 }

@@ -10,7 +10,7 @@ const {
     verifyOTPandLogin,
     getRefershToken,
     logOutFunctionality,
-    userBasedLoginVerification, getAllSuperUsers, verifyOTPforPrint
+    userBasedLoginVerification, getAllSuperUsers, verifyOTPforPrint,
 } = require('./user.controller');
 
 router.post('/insertUser', verifyToken, insertUser);

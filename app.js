@@ -261,6 +261,8 @@ const bisKmcDischarge = require('./api/bis_kmc_discharge/bis_discharge.router')
 const bisKmclabDetails = require('./api/bis_kmc_lab/bis_lab.router')
 const bisKmcradiologyDetails = require('./api/bis_kmc_radiology/bis_radiology.router')
 const bisQuotation = require('./api/bis_quotation/bis_quotation.router')
+const bis_sub_menu_master = require('./api/bis_sub_menu_master/bis_sub_menu_master.router')
+const bisGraphicalViewMast = require('./api/BisGraphicalViewRightsMaster/bisGraphicalViewMast.router')
 
 
 const { validateTokenFrontend, validateToken } = require("./authentication/ValidationCheck");
@@ -483,6 +485,10 @@ app.use('/api/bisKmcDischarge', bisKmcDischarge)
 app.use('/api/bisKmclabDetails', bisKmclabDetails)
 app.use('/api/bisKmcradiologyDetails', bisKmcradiologyDetails)
 app.use('/api/bisQuotation', bisQuotation)
+app.use('/api/bisSubMenuMaster', bis_sub_menu_master)
+app.use('/api/bisGraphicalViewMast', bisGraphicalViewMast)
+
+
 
 /*
 

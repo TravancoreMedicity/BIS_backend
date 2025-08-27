@@ -3,13 +3,14 @@
 const pool = require("../../config/dbConfig");
 
 module.exports = {
-    InsertMenuName: (data, callBack) => {
+    InsertSubMenuName: (data, callBack) => {
         pool.query(
-            `INSERT INTO bis_menu_name ( bis_menu_name, bis_menu_module, bis_menu_status) VALUES ( ?, ?, ?)`,
+            `INSERT INTO bis_sub_menu_master ( bis_sub_menu_name, bis_mod_slno, bis_menu_slno,bis_sub_menu_status) VALUES (?, ?, ?, ?)`,
             [
+                data.Sub_Menu_name,
+                data.Module_slno,
                 data.Menu_name,
-                data.module_name,
-                data.Menu_status
+                data.Sub_Menu_status
             ],
             (error, results, fields) => {
                 if (error) {
@@ -22,11 +23,11 @@ module.exports = {
     validateMenuNameExcistOrNot: (data, callBack) => {
         pool.query(
             `SELECT 
-                bis_menu_name
-            FROM bis_menu_name 
-            WHERE bis_menu_name = ?`,
+                bis_sub_menu_name
+            FROM bis_sub_menu_master 
+            WHERE bis_sub_menu_name = ?`,
             [
-                data.Menu_name
+                data.Sub_Menu_name
             ],
             (error, results, fields) => {
                 if (error) {
@@ -38,7 +39,7 @@ module.exports = {
     },
     GetDatas: (callBack) => {
         pool.query(
-            'SELECT * FROM bis_menu_name',
+            'SELECT * FROM bis_sub_menu_master',
             (error, results, fields) => {
                 if (error) {
                     return callBack(error)
@@ -46,20 +47,23 @@ module.exports = {
                 return callBack(null, results)
             })
     },
-    UpdateMenuName: (data, callBack) => {
+    UpdateSubMenuName: (data, callBack) => {
         // console.log("service", data);
 
         pool.query(
-            `UPDATE bis_menu_name 
-                SET bis_menu_name = ?,
-                bis_menu_module=?,
-                    bis_menu_status = ?
-                WHERE bis_menu_slno = ?`,
+            `UPDATE bis_sub_menu_master 
+                SET
+                  bis_sub_menu_name=?,
+                  bis_mod_slno=?,
+                  bis_menu_slno=?,
+                  bis_sub_menu_status=?
+                WHERE bis_sub_menu_slno = ?`,
             [
+                data.Sub_Menu_name,
+                data.Module_slno,
                 data.Menu_name,
-                data.module_name,
-                data.Menu_status,
-                data.Menu_slno
+                data.Sub_Menu_status,
+                data.Sub_Menu_slno
             ],
             (error, results, fields) => {
                 if (error) {

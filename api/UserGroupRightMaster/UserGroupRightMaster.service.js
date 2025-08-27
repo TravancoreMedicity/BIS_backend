@@ -128,6 +128,8 @@ module.exports = {
             [
                 data.module_slno,
                 data.user_group_slno,
+
+
             ],
             (error, results, feilds) => {
                 if (error) {
@@ -174,6 +176,29 @@ module.exports = {
             }
         );
     },
+    getUsergrpRights: (callBack) => {
+        pool.query(
+            `SELECT 
+            bis_group_rights_slno, 
+            bis_user_group_slno, 
+            bis_user_group_rights.bis_module_slno, 
+            bis_menu_slno, 
+            bis_menu_view, 
+            bis_menu_add, 
+            bis_menu_edit,
+            bis_module_name.bis_module_name 
+        FROM bis_user_group_rights 
+        LEFT JOIN bis_module_name 
+        ON bis_module_name.bis_module_slno = bis_user_group_rights.bis_module_slno`,
+            (error, results) => {
+                if (error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    }
+
 }
 
 

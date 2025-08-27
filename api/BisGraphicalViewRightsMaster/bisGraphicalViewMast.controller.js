@@ -1,59 +1,9 @@
 const logger = require('../../logger/logger');
 
-const { getModulewiseMenus, ModulewiseMenus, validateGroupRights, getMenuSlno, insertGroupRight, getGroupMenuRigths, updateGroupMenuRights, UserWiseSettingsRights, getUsergrpRights } = require('./UserGroupRightMaster.service');
+const { validateGroupRights, getSubMenuSlno, insertGraphicalViewRight, getGroupSubMenuRigths, updateGraphicalViewRights, getGraphicalViewRights, getUsergrpRights } = require('./bisGraphicalViewMast.service');
 
 module.exports = {
 
-    getModulewiseMenus: (req, res) => {
-        const id = req.params.id;
-        getModulewiseMenus(id, (error, results) => {
-            if (error) {
-                logger.error(error);
-                return res.status(500).json({
-                    success: 0,
-                    message: "Database connection error",
-                });
-            }
-
-            // Ensure results is an array before checking length
-            if (!Array.isArray(results) || results.length === 0) {
-                return res.status(200).json({
-                    success: 2,
-                    message: "No data",
-                });
-            }
-
-            return res.status(200).json({
-                success: 1,
-                data: results,
-            });
-        });
-    },
-    ModulewiseMenus: (req, res) => {
-        const id = req.params.module_name;
-        ModulewiseMenus(id, (error, results) => {
-            if (error) {
-                logger.error(error);
-                return res.status(500).json({
-                    success: 0,
-                    message: "Database connection error",
-                });
-            }
-
-            // Ensure results is an array before checking length
-            if (!Array.isArray(results) || results.length === 0) {
-                return res.status(200).json({
-                    success: 2,
-                    message: "No data",
-                });
-            }
-
-            return res.status(200).json({
-                success: 1,
-                data: results,
-            });
-        });
-    },
     createGroupRights: (req, res) => {
 
         const body = req.body;
@@ -73,10 +23,10 @@ module.exports = {
             if (Object.keys(value).length === 0) {
 
                 // Insert the values
-                getMenuSlno(body, (err, results) => {
+                getSubMenuSlno(body, (err, results) => {
                     const postData = {
-                        user_group_slno: body.user_group_slno,
-                        module_slno: body.module_slno
+                        emp_no: body.emp_no,
+                        menu_slno: body.menu_slno
                     }
 
                     if (err) {
@@ -88,14 +38,14 @@ module.exports = {
                         });
                     }
 
-                    const menuSLno = JSON.parse(JSON.stringify(results))
+                    const subMenuSLno = JSON.parse(JSON.stringify(results))
 
-                    const menuDetl = menuSLno.map((val) => {
-                        const newArray = [body.user_group_slno, body.module_slno, val.bis_menu_slno]
+                    const menuDetl = subMenuSLno.map((val) => {
+                        const newArray = [body.emp_no, val.bis_mod_slno, body.menu_slno, val.bis_sub_menu_slno,]
                         return newArray;
                     })
 
-                    insertGroupRight(menuDetl, (err, results) => {
+                    insertGraphicalViewRight(menuDetl, (err, results) => {
                         if (err) {
                             // logger.errorLogger(err)
                             return res.status(200).json({
@@ -106,7 +56,7 @@ module.exports = {
 
                         if (results) {
 
-                            getGroupMenuRigths(body, (err, results) => {
+                            getGroupSubMenuRigths(body, (err, results) => {
 
                                 if (err) {
                                     logger.errorLogger(err)
@@ -137,7 +87,14 @@ module.exports = {
             } else {
 
                 //Get The Selected Values
-                getMenuSlno(body, (err, results) => {
+                getSubMenuSlno(body, (err, results) => {
+
+
+                    //         SELECT bis_sub_menu_slno, bis_mod_slno
+                    // FROM bis_sub_menu_master 
+                    // WHERE bis_menu_slno = ?
+
+
                     if (err) {
                         logger.errorLogger(err)
                         return res.status(200).json({
@@ -149,11 +106,19 @@ module.exports = {
 
                     let array = menuSLno?.filter((row) => {
                         return !value?.find((val) => {
-                            return row.menu_slno === val.menu_slno;
+
+
+                            //             SELECT  view_mast_slno, view_emp_no, view_module_slno, view_menu_slno, view_sub_menu_slno, sub_menu_view_rights
+                            // FROM bis_graphicalview_master 
+                            // WHERE view_emp_no = ? AND view_menu_slno =?
+
+
+
+                            return row.bis_sub_menu_slno === val.view_sub_menu_slno;
                         })
                     })
                     if (Object.keys(array).length === 0) {
-                        getGroupMenuRigths(body, (err, results) => {
+                        getGroupSubMenuRigths(body, (err, results) => {
 
                             if (err) {
                                 logger.errorLogger(err)
@@ -179,11 +144,11 @@ module.exports = {
 
                     } else {
                         const menuDetl = array.map((val) => {
-                            const newArray = [body.user_group_slno, body.module_slno, val.menu_slno]
+                            const newArray = [body.emp_no, val.bis_mod_slno, body.menu_slno, val.bis_sub_menu_slno,]
                             return newArray;
                         })
 
-                        insertGroupRight(menuDetl, (err, results) => {
+                        insertGraphicalViewRight(menuDetl, (err, results) => {
                             if (err) {
                                 logger.errorLogger(err)
                                 return res.status(200).json({
@@ -193,7 +158,7 @@ module.exports = {
                             }
                             if (results) {
 
-                                getGroupMenuRigths(body, (err, results) => {
+                                getGroupSubMenuRigths(body, (err, results) => {
 
                                     if (err) {
                                         logger.errorLogger(err)
@@ -223,10 +188,12 @@ module.exports = {
             }
         })
     },
-    updateGroupMenuRits: (req, res) => {
+
+
+    updateGraphicalViewRights: (req, res) => {
         const body = req.body
 
-        updateGroupMenuRights(body, (err, results) => {
+        updateGraphicalViewRights(body, (err, results) => {
             if (err) {
                 logger.errorLogger(err)
                 return res.status(200).json({
@@ -243,7 +210,7 @@ module.exports = {
             }
             if (results) {
 
-                getGroupMenuRigths(body, (err, results) => {
+                getGroupSubMenuRigths(body, (err, results) => {
 
                     if (err) {
                         logger.errorLogger(err)
@@ -270,11 +237,11 @@ module.exports = {
         })
     },
 
-    UserWiseSettingsRights: (req, res) => {
+    getGraphicalViewRights: (req, res) => {
         const id = req.params.loggedUser;
         // console.log(" req.params.", req.params);
 
-        UserWiseSettingsRights(id, (error, results) => {
+        getGraphicalViewRights(id, (error, results) => {
             if (error) {
 
                 // logger.error(error);
