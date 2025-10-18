@@ -284,6 +284,18 @@ module.exports = {
             }
         )
     },
+    getKmcPharmaSalesModuleData: (callback) => {
+        pool.query(
+            `Select kmc_pharmacy_slno, kmc_pharma_last_update, kmc_pharma_labels from bis_kmc_pharmacy_sales_module`, [],
+            (error, results, feilds) => {
+                if (error) {
+                    return callback(error);
+                }
+                return callback(null, results);
+
+            }
+        );
+    },
 }
 
 

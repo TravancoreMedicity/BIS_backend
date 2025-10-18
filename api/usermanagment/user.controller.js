@@ -197,7 +197,7 @@ module.exports = {
                     if (results) {
                         // return res.status(200).json({
                         //     success: 2,
-                        //     // otp: otp,
+                        //     otp: otp,
                         //     message: "OTP sent successfully",
                         // });
 
