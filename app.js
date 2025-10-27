@@ -46,8 +46,8 @@ app.use(cookieParser());
 // );
 
 const allowedOrigins = [
-    // "http://localhost:3000",
-    // "http://localhost:3002",
+    "http://localhost:3000",
+    "http://localhost:3002",
     "http://192.168.10.88:9741",
     "http://192.168.10.88:9742",
     "https://192.168.10.88:9742",

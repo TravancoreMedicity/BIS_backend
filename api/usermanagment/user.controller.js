@@ -20,7 +20,7 @@ const {
     deleteRefreshToken,
     validateUserCredExcistOrNot,
     userBasedValidationCheck,
-    userBasedInsertRefreshToken, getAllSuperUsers, verifyOTPforPrint
+    userBasedInsertRefreshToken, getAllSuperUsers, verifyOTPforPrint, userBasedInsertEliderToken, getelidertoken
 } = require("./user.service");
 
 const { addHours, format } = require("date-fns");
@@ -28,6 +28,7 @@ const logger = require("../../logger/logger");
 const {
     generateAccessToken,
     generateRefreshToken,
+    generateEliderToken
 } = require("../helperFunction/HelperFunction");
 const { encrypt, decrypt } = require("../EncryptionHandler/EncryptionHandler");
 const { validateUserLoginCheck } = require("./user.function");
@@ -195,29 +196,29 @@ module.exports = {
                         });
                     }
                     if (results) {
-                        // return res.status(200).json({
-                        //     success: 2,
-                        //     otp: otp,
-                        //     message: "OTP sent successfully",
-                        // });
+                        return res.status(200).json({
+                            success: 2,
+                            otp: otp,
+                            message: "OTP sent successfully",
+                        });
 
-                        axios
-                            .get(
-                                `https://sapteleservices.com/SMS_API/sendsms.php?username=Tmc_medicity&password=c9e780&sendername=TMDCTY&mobile=${mobileNumber}&template_id=1407162012178109509&message=Your+Medicity+App+OTP+code:+${otp}+DuHTEah22dE.Travancore+Medicity+.&routetype=1`
-                            )
-                            .then((response) => {
-                                return res.status(200).json({
-                                    success: 2,
-                                    message: "OTP sent successfully",
-                                });
-                            })
-                            .catch((error) => {
-                                logger.error(error);
-                                return res.status(200).json({
-                                    success: 3,
-                                    message: "Error in sending OTP,Please try again",
-                                });
-                            });
+                        // axios
+                        //     .get(
+                        //         `https://sapteleservices.com/SMS_API/sendsms.php?username=Tmc_medicity&password=c9e780&sendername=TMDCTY&mobile=${mobileNumber}&template_id=1407162012178109509&message=Your+Medicity+App+OTP+code:+${otp}+DuHTEah22dE.Travancore+Medicity+.&routetype=1`
+                        //     )
+                        //     .then((response) => {
+                        //         return res.status(200).json({
+                        //             success: 2,
+                        //             message: "OTP sent successfully",
+                        //         });
+                        //     })
+                        //     .catch((error) => {
+                        //         logger.error(error);
+                        //         return res.status(200).json({
+                        //             success: 3,
+                        //             message: "Error in sending OTP,Please try again",
+                        //         });
+                        //     });
                     }
                 });
             }
@@ -288,6 +289,8 @@ module.exports = {
 
                     const accessToken = generateAccessToken(userData);
                     const refreshToken = generateRefreshToken(user_slno);
+                    const elidertoken = generateEliderToken(user_slno)
+                    console.log("elidertoken", elidertoken);
 
                     // insert the refresh token
                     insertRefreshToken({ user_slno, refresh_token: refreshToken }, (error, results) => {
@@ -308,6 +311,16 @@ module.exports = {
                                 printer_access
                             };
 
+                            userBasedInsertEliderToken({
+                                Elider_token: elidertoken
+                            }, (error, result) => {
+                                if (error) {
+                                    return res.status(500).json({
+                                        success: 0,
+                                        message: "Token Not Inserted",
+                                    });
+                                }
+                            });
                             // res.cookie("accessToken", accessToken, {
                             //     httpOnly: true,
                             //     secure: true,
@@ -418,6 +431,7 @@ module.exports = {
         userBasedValidationCheck(body, (error, results) => {
             // console.log("error", error);
 
+            console.log("inserted");
 
             if (error) {
                 logger.error(error);
@@ -480,6 +494,8 @@ module.exports = {
 
                         const accessToken = generateAccessToken(userData);
                         const refreshToken = generateRefreshToken(user_slno);
+                        const elidertoken = generateEliderToken(user_slno)
+                        console.log(elidertoken, "elidertoken");
 
                         // insert the refresh token
                         userBasedInsertRefreshToken({ user_slno, refresh_token: refreshToken }, (error, results) => {
@@ -579,5 +595,26 @@ module.exports = {
         });
     },
 
+    getelidertoken: (req, res) => {
+        getelidertoken((error, results) => {
+            if (error) {
+                return res.status(500).json({
+                    success: 0,
+                    message: "Database connection error",
+                });
+            }
 
+            if (results?.length === 0) {
+                return res.status(200).json({
+                    success: 2,
+                    message: "no data",
+                });
+            }
+
+            return res.status(200).json({
+                success: 1,
+                data: results,
+            });
+        });
+    },
 };

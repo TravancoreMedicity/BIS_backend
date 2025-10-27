@@ -366,5 +366,59 @@ module.exports = {
             })
     },
 
+
+    userBasedInsertEliderToken: (data, callBack) => {
+        pool.query(
+            `SELECT * FROM bis_token WHERE token_slno = 1`,
+            [],
+            (err, results) => {
+                if (err) {
+                    return callBack(err);
+                }
+
+                if (results.length > 0) {
+                    // Record exists, perform update
+                    pool.query(
+                        `UPDATE bis_token SET elider_token = ? WHERE token_slno = 1`,
+                        [data.Elider_token, data.Elider_Id],
+                        (updateErr, updateResults) => {
+                            if (updateErr) {
+                                return callBack(updateErr);
+                            }
+                            return callBack(null, updateResults);
+                        }
+                    );
+                } else {
+                    // Record doesn't exist, perform insert
+                    pool.query(
+                        `INSERT INTO bis_token (elider_token) VALUES (?)`,
+                        [data.Elider_token],
+                        (insertErr, insertResults) => {
+                            if (insertErr) {
+                                return callBack(insertErr);
+                            }
+                            return callBack(null, insertResults);
+                        }
+                    );
+                }
+            }
+        );
+    },
+
+    getelidertoken: (callBack) => {
+        pool.query(
+            "SELECT elider_token FROM bis_token ",
+            [],
+            (error, results, fields) => {
+                if (error) {
+                    logger.error(error);
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+
+
 }
 

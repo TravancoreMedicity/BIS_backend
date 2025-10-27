@@ -83,7 +83,7 @@ module.exports = {
         pool.query(
             ` SELECT bis_group_rights_slno,bis_user_group_slno, bis_module_slno,bis_menu_slno, bis_menu_view
               FROM bis_user_group_rights
-              WHERE bis_user_group_slno=? and bis_menu_view=1;`,
+              WHERE bis_user_group_slno=? and bis_menu_view=1`,
             [id],
             (error, results, fields) => {
                 if (error) {
