@@ -1,5 +1,5 @@
 const { pool } = require('../../config/database')
-const { getOpDatas, getOpModuleData, insertOpcount, updatOutpatientModuleTbl, deleteOpData, updatOpCount, updateCashcreditCount, deleteOpCashCreditData, updateOpCashCreditData, getKmcIpModuleData, insertIpAdmissionDatas, updateDischargeCount, UpdateIpDischgModuleTbl, UpdateIpAdmsnModuleTbl
+const { getOpDatas, getOpModuleData, insertOpcount, updatOutpatientModuleTbl, deleteOpData, updatOpCount, updateCashcreditCount, deleteOpCashCreditData, updateOpCashCreditData, getKmcIpModuleData, insertIpAdmissionDatas, updateDischargeCount, UpdateIpDischgModuleTbl, UpdateIpAdmsnModuleTbl, getKmcPharmaSalesModuleData
 } = require('./bis_data_push.service');
 module.exports = {
 
@@ -437,6 +437,30 @@ module.exports = {
                 });
             });
         });
-    }
+    },
+    //pharma sales
+    getKmcPharmaSalesModuleData: (req, res) => {
+        getKmcPharmaSalesModuleData((err, results) => {
+            if (err) {
+                return res.status(200).json({
+                    success: 0,
+                    message: err
+                })
+            }
+            if (results === 0) {
+                return res.status(200).json({
+                    success: 1,
+                    message: "No Records",
+                    data: []
+                })
+            }
+            return res.status(200).json({
+                success: 2,
+                data: results
+            })
+
+        })
+    },
+
 }
 

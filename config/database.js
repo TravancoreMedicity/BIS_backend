@@ -20,8 +20,30 @@ const hrpool = createPool({
     dateStrings: true
 });
 
+const milorapool = createPool({
+    port: process.env.DB_PORT,
+    host: process.env.DB_HOST_MEL,
+    user: process.env.DB_USER_MEL,
+    password: process.env.DB_PASS_MEL,
+    database: process.env.MYSQL_DB_MEL,
+    connectionLimit: 10,
+    dateStrings: true
+});
+
+const hspgpool = createPool({
+    port: process.env.DB_PORT,
+    host: process.env.HR_HOST_HSPG,
+    user: process.env.HR_DB_USER_HSPG,
+    password: process.env.HR_DB_PASS_HSPG,
+    database: process.env.HR_SQL_HSPG,
+    connectionLimit: 10,
+    dateStrings: true
+});
+
 module.exports = {
     pool,
-    hrpool
+    hrpool,
+    milorapool,
+    hspgpool
 };
 //module.exports = hrpool;

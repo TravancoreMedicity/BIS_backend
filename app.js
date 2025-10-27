@@ -18,17 +18,76 @@ const fs = require('fs');
 
 app.use(cookieParser());
 
+// app.use(
+//     cors({
+//         origin: "http://192.168.22.3:3000",
+
+//         credentials: true
+//     })
+// );
+
+// const allowedOrigins = [
+//     "http://192.168.22.3:3000",
+//     "http://192.168.22.3:6001",
+//     "http://192.168.22.3:6002"
+// ];
+
+// app.use(
+//     cors({
+//         origin: (origin, callback) => {
+//             if (!origin || allowedOrigins.includes(origin)) {
+//                 callback(null, true);
+//             } else {
+//                 callback(new Error("Not allowed by CORS"));
+//             }
+//         },
+//         credentials: true
+//     })
+// );
+
+const allowedOrigins = [
+    "http://localhost:3000",
+    "http://localhost:3002",
+    "http://192.168.10.88:9741",
+    "http://192.168.10.88:9742",
+    "https://192.168.10.88:9742",
+    "http://travancoremedicity.in:9741",
+    "https://travancoremedicity.in:9742",
+    "http://tm.medicity.co.in:8888",
+    "http://192.168.10.88:8888",
+    "http://192.168.22.9:3000",
+    "http://195.168.34.25:3001",
+    "http://195.168.34.25:3000",
+    "http://192.168.22.170:3000",
+    "http://192.168.22.5:3000",
+    "http://192.168.22.3:3000",
+
+];
+
+
 app.use(
     cors({
-        origin: "http://192.168.22.3:3000",
-        credentials: true
+
+        origin: (origin, callback) => {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                console.warn("Blocked by CORS:", origin);
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
+
+        credentials: true,
     })
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+
+app.use(express.json({ limit: '50mb' }));  // You can adjust this size
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // app.use(cors({
 //     origin: ['http://192.168.22.4:3000', 'http://localhost:3000',],
@@ -258,8 +317,10 @@ const bisKmcPharmacy = require('./api/bis_kmc_pharmacy/bis_pharmacy.router')
 const bisKmcDischarge = require('./api/bis_kmc_discharge/bis_discharge.router')
 const bisKmclabDetails = require('./api/bis_kmc_lab/bis_lab.router')
 const bisKmcradiologyDetails = require('./api/bis_kmc_radiology/bis_radiology.router')
-
-
+const bisQuotation = require('./api/bis_quotation/bis_quotation.router')
+const bis_sub_menu_master = require('./api/bis_sub_menu_master/bis_sub_menu_master.router')
+const bisGraphicalViewMast = require('./api/BisGraphicalViewRightsMaster/bisGraphicalViewMast.router')
+// const bis_crf_dashboard = require('./api/bis_crf_dashboard/bis_crf_dashboard.router')
 
 const { validateTokenFrontend, validateToken } = require("./authentication/ValidationCheck");
 const { generateOTP } = require("./api/usermanagment/user.controller");
@@ -480,6 +541,11 @@ app.use('/api/bisKmcPharmacy', bisKmcPharmacy)
 app.use('/api/bisKmcDischarge', bisKmcDischarge)
 app.use('/api/bisKmclabDetails', bisKmclabDetails)
 app.use('/api/bisKmcradiologyDetails', bisKmcradiologyDetails)
+app.use('/api/bisQuotation', bisQuotation)
+app.use('/api/bisSubMenuMaster', bis_sub_menu_master)
+app.use('/api/bisGraphicalViewMast', bisGraphicalViewMast)
+// app.use('/api/bis_crf_dashboard', bis_crf_dashboard)
+
 
 /*
 

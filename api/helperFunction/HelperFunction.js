@@ -15,4 +15,12 @@ const generateRefreshToken = ({ userSlno }) =>
         expiresIn: "1d",
     });
 
-module.exports = { generateAccessToken, generateRefreshToken };
+
+const generateEliderToken = (userSlno) => {
+    // const plainUserData = JSON.parse(JSON.stringify(userData));
+    return jwt.sign({ id: userSlno }, process.env.SECRET_KEY_MEL, {
+        expiresIn: "60d",
+    });
+};
+
+module.exports = { generateAccessToken, generateRefreshToken, generateEliderToken };

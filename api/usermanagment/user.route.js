@@ -10,7 +10,7 @@ const {
     verifyOTPandLogin,
     getRefershToken,
     logOutFunctionality,
-    userBasedLoginVerification, getAllSuperUsers, verifyOTPforPrint
+    userBasedLoginVerification, getAllSuperUsers, verifyOTPforPrint, getelidertoken
 } = require('./user.controller');
 
 router.post('/insertUser', verifyToken, insertUser);
@@ -24,6 +24,8 @@ router.get('/logout/:id', logOutFunctionality)
 router.post('/checkUserCres', userBasedLoginVerification)
 router.get('/getSuperUsers', verifyToken, getAllSuperUsers);
 router.post('/verifyOTPforPrint', verifyOTPforPrint);
+router.get('/get-elider-token', verifyToken, getelidertoken);
+
 
 // router.patch('/updateUser/:user_slno', updateUser);
 

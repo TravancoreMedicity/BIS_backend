@@ -20,7 +20,7 @@ const {
     deleteRefreshToken,
     validateUserCredExcistOrNot,
     userBasedValidationCheck,
-    userBasedInsertRefreshToken, getAllSuperUsers, verifyOTPforPrint
+    userBasedInsertRefreshToken, getAllSuperUsers, verifyOTPforPrint, userBasedInsertEliderToken, getelidertoken
 } = require("./user.service");
 
 const { addHours, format } = require("date-fns");
@@ -28,6 +28,7 @@ const logger = require("../../logger/logger");
 const {
     generateAccessToken,
     generateRefreshToken,
+    generateEliderToken
 } = require("../helperFunction/HelperFunction");
 const { encrypt, decrypt } = require("../EncryptionHandler/EncryptionHandler");
 const { validateUserLoginCheck } = require("./user.function");
@@ -288,6 +289,8 @@ module.exports = {
 
                     const accessToken = generateAccessToken(userData);
                     const refreshToken = generateRefreshToken(user_slno);
+                    const elidertoken = generateEliderToken(user_slno)
+                    // console.log("elidertoken", elidertoken);
 
                     // insert the refresh token
                     insertRefreshToken({ user_slno, refresh_token: refreshToken }, (error, results) => {
@@ -308,6 +311,16 @@ module.exports = {
                                 printer_access
                             };
 
+                            userBasedInsertEliderToken({
+                                Elider_token: elidertoken
+                            }, (error, result) => {
+                                if (error) {
+                                    return res.status(500).json({
+                                        success: 0,
+                                        message: "Token Not Inserted",
+                                    });
+                                }
+                            });
                             // res.cookie("accessToken", accessToken, {
                             //     httpOnly: true,
                             //     secure: true,
@@ -418,6 +431,7 @@ module.exports = {
         userBasedValidationCheck(body, (error, results) => {
             // console.log("error", error);
 
+            console.log("inserted");
 
             if (error) {
                 logger.error(error);
@@ -480,6 +494,8 @@ module.exports = {
 
                         const accessToken = generateAccessToken(userData);
                         const refreshToken = generateRefreshToken(user_slno);
+                        const elidertoken = generateEliderToken(user_slno)
+                        console.log(elidertoken, "elidertoken");
 
                         // insert the refresh token
                         userBasedInsertRefreshToken({ user_slno, refresh_token: refreshToken }, (error, results) => {
@@ -577,5 +593,28 @@ module.exports = {
                 });
             }
         });
-    }
+    },
+
+    getelidertoken: (req, res) => {
+        getelidertoken((error, results) => {
+            if (error) {
+                return res.status(500).json({
+                    success: 0,
+                    message: "Database connection error",
+                });
+            }
+
+            if (results?.length === 0) {
+                return res.status(200).json({
+                    success: 2,
+                    message: "no data",
+                });
+            }
+
+            return res.status(200).json({
+                success: 1,
+                data: results,
+            });
+        });
+    },
 };
