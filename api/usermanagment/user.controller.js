@@ -290,7 +290,7 @@ module.exports = {
                     const accessToken = generateAccessToken(userData);
                     const refreshToken = generateRefreshToken(user_slno);
                     const elidertoken = generateEliderToken(user_slno)
-                    console.log("elidertoken", elidertoken);
+                    // console.log("elidertoken", elidertoken);
 
                     // insert the refresh token
                     insertRefreshToken({ user_slno, refresh_token: refreshToken }, (error, results) => {
