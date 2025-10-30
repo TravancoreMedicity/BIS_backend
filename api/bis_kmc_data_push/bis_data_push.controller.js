@@ -353,7 +353,7 @@ module.exports = {
             record.DIS_COUNT,
             record.c_name
         ]);
-        console.log(values);
+        // console.log(values);
 
         pool.getConnection((err, connection) => {
             if (err) {

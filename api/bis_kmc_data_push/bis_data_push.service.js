@@ -240,7 +240,7 @@ module.exports = {
     },
 
     updateDischargeCount: (values, callback) => {
-        console.log("values", values);
+        // console.log("values", values);
 
         const sql = `
                   UPDATE bis_kmc_inpatient 
